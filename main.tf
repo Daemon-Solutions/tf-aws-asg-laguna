@@ -18,10 +18,11 @@ resource "aws_launch_configuration" "lc" {
 // Auto-Scaling Group Configuration
 resource "aws_autoscaling_group" "asg" {
   name                = var.name
-  availability_zones  = split(",", var.availability_zones)
-  vpc_zone_identifier = split(",", var.subnets)
+  availability_zones  =  [var.availability_zones]
 
-  // Use the Name from the launch config created above
+  vpc_zone_identifier =  [element(split(",",var.subnets), "0")]
+  target_group_arns   = [aws_lb_target_group.alb_https_target_group.arn]
+
   launch_configuration = aws_launch_configuration.lc.name
 
   enabled_metrics = var.enabled_metrics
