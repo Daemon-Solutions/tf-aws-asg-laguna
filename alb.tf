@@ -42,11 +42,11 @@ resource "aws_lb_target_group" "alb_https_target_group" {
     Name    = "${var.name}-alb-http-target-group"
     envname = var.envname
   }
-
+  #The below is a bug with TFv0.12.24/25. You need to set stickiness as enable = true
   stickiness {
     type            = "lb_cookie"
     cookie_duration = 1800
-    enabled         = true
+    enabled         = false
   }
 
   health_check {
