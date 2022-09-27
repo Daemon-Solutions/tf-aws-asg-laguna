@@ -15,13 +15,18 @@ resource "aws_launch_configuration" "lc" {
   enable_monitoring           = var.detailed_monitoring
 }
 
+locals {
+  target_group_arns = "${var.alb_int_enabled ? [aws_lb_target_group.alb_https_target_group.arn, aws_lb_target_group.alb_internal_listener_target_group[0].arn] : [aws_lb_target_group.alb_https_target_group.arn]}"
+}
+
 // Auto-Scaling Group Configuration
 resource "aws_autoscaling_group" "asg" {
-  name                = var.name
-  availability_zones  =  [var.availability_zones]
+  name               = var.name
+  availability_zones = [var.availability_zones]
 
-  vpc_zone_identifier =  [element(split(",",var.subnets), "0")]
-  target_group_arns   = [aws_lb_target_group.alb_https_target_group.arn]
+  vpc_zone_identifier = [element(split(",", var.subnets), "0")]
+
+  target_group_arns = local.target_group_arns
 
   launch_configuration = aws_launch_configuration.lc.name
 
@@ -32,6 +37,8 @@ resource "aws_autoscaling_group" "asg" {
 
   health_check_grace_period = var.health_check_grace_period
   health_check_type         = var.health_check_type
+
+  suspended_processes = var.suspended_processes
 
   tag {
     key                 = "Name"

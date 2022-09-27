@@ -98,26 +98,55 @@ variable "alb_health_port" {
 }
 
 variable "alb_logs_bucket" {
-  type    = string  
+  type = string
 }
 
 variable "https_port" {
-  type    = string  
+  type    = string
   default = "443"
 }
 
 variable "alb_certificate_arn" {
-  type    = string    
+  type = string
 }
 
 variable "alb_listener_protocol" {
-  type    = string      
+  type = string
 }
 
 variable "alb_target_protocol" {
-  type    = string        
+  type = string
 }
 
 variable "alb_target_port" {
-  type    = string        
+  type = string
+}
+
+variable "suspended_processes" {
+  type = list(string)
+  default = [
+    "HealthCheck",
+    "Launch",
+    "ReplaceUnhealthy",
+    "Terminate"
+  ]
+}
+
+variable "ssl_policy" {
+  type    = string
+  default = "ELBSecurityPolicy-TLS-1-2-2017-01"
+}
+
+variable "alb_internal_port" {
+  type = string
+}
+
+variable "alb_internal_target_protocol" {
+  type    = string
+  default = "TCP"
+}
+
+variable "alb_int_enabled" {
+  type    = string
+  default = false
 }
