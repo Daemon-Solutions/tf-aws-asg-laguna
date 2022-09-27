@@ -14,3 +14,7 @@ output "aws_lb_alb_dns_name" {
   value = aws_lb.alb.dns_name
 }
 
+output "aws_lb_alb_internal_dns_name" {
+  value = try(aws_lb.alb_internal[0].dns_name, 0)
+}
+
