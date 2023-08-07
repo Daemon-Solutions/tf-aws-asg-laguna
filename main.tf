@@ -21,8 +21,7 @@ locals {
 
 // Auto-Scaling Group Configuration
 resource "aws_autoscaling_group" "asg" {
-  name               = var.name
-  availability_zones = [var.availability_zones]
+  name = var.name
 
   vpc_zone_identifier = [element(split(",", var.subnets), "0")]
 
