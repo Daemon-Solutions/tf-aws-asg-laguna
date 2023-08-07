@@ -46,10 +46,6 @@ variable "public_subnets" {
   description = "A list of Public subnet IDs to launch resources in"
 }
 
-variable "availability_zones" {
-  description = "A list of Available Zones IDs to launch resources in"
-}
-
 variable "asg_min" {
   default = 0
 }
