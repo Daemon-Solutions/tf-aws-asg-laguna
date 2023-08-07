@@ -146,3 +146,8 @@ variable "alb_int_enabled" {
   type    = string
   default = false
 }
+
+variable "stickiness_type" {
+  type    = string
+  default = "lb_cookie"  
+}

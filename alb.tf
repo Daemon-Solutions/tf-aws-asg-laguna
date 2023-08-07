@@ -110,7 +110,7 @@ resource "aws_lb_target_group" "alb_internal_listener_target_group" {
   }
   #The below is a bug with TFv0.12.24/25. You need to set stickiness as enable = true
   stickiness {
-    type            = "lb_cookie"
+    type            = var.stickiness_type
     cookie_duration = 1800
     enabled         = false
   }
