@@ -149,5 +149,11 @@ variable "alb_int_enabled" {
 
 variable "stickiness_type" {
   type    = string
-  default = "lb_cookie"  
+  default = "lb_cookie"
+}
+
+#SD-3205
+variable "module_enabled" {
+  type    = bool
+  default = false
 }

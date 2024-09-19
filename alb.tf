@@ -1,4 +1,5 @@
 resource "aws_lb" "alb" {
+  count                      = var.module_enabled ? 1 : 0
   name                       = "${var.name}-alb"
   internal                   = false
   subnets                    = split(",", var.public_subnets)
@@ -16,23 +17,27 @@ resource "aws_lb" "alb" {
 }
 #ALB listner
 resource "aws_lb_listener" "alb_https_listener" {
-  load_balancer_arn = aws_lb.alb.arn
+  count             = var.module_enabled ? 1 : 0
+  load_balancer_arn = aws_lb.alb[0].arn
   port              = var.https_port
   protocol          = "HTTPS"
   ssl_policy        = var.ssl_policy
   certificate_arn   = var.alb_certificate_arn
   default_action {
-    target_group_arn = aws_lb_target_group.alb_https_target_group.arn
+    target_group_arn = aws_lb_target_group.alb_https_target_group[0].arn
     type             = "forward"
   }
 }
 
 resource "aws_lb_listener_certificate" "alb_listener_acm" {
-  listener_arn    = aws_lb_listener.alb_https_listener.arn
+  listener_arn = aws_lb_listener.alb_https_listener[0].arn
+  count        = var.module_enabled ? 1 : 0
+
   certificate_arn = var.alb_certificate_arn
 }
 
 resource "aws_lb_target_group" "alb_https_target_group" {
+  count    = var.module_enabled ? 1 : 0
   name     = "${var.name}-target"
   port     = var.alb_target_port
   protocol = var.alb_target_protocol
@@ -62,13 +67,14 @@ resource "aws_lb_target_group" "alb_https_target_group" {
 
 # Autoscaling Target Group attachment
 resource "aws_autoscaling_attachment" "wordpress_autoscaling_attachment" {
-  autoscaling_group_name = aws_autoscaling_group.asg.id
-  alb_target_group_arn   = aws_lb_target_group.alb_https_target_group.arn
+  count                  = var.module_enabled ? 1 : 0
+  autoscaling_group_name = aws_autoscaling_group.asg[0].id
+  alb_target_group_arn   = aws_lb_target_group.alb_https_target_group[0].arn
 }
 
 ###Private Internal ALB
 resource "aws_lb" "alb_internal" {
-  count                      = var.alb_int_enabled ? 1 : 0
+  count                      = var.alb_int_enabled && var.module_enabled ? 1 : 0
   name                       = "${var.name}-alb-int"
   internal                   = true
   subnets                    = split(",", var.public_subnets)
@@ -85,19 +91,19 @@ resource "aws_lb" "alb_internal" {
 }
 #ALB listner
 resource "aws_lb_listener" "alb_internal_listener" {
-  count             = var.alb_int_enabled ? 1 : 0
-  load_balancer_arn = aws_lb.alb_internal[count.index].arn
+  count             = var.alb_int_enabled && var.module_enabled ? 1 : 0
+  load_balancer_arn = aws_lb.alb_internal[0].arn
   port              = var.alb_internal_port
   protocol          = var.alb_internal_target_protocol
 
   default_action {
-    target_group_arn = aws_lb_target_group.alb_internal_listener_target_group[count.index].arn
+    target_group_arn = aws_lb_target_group.alb_internal_listener_target_group[0].arn
     type             = "forward"
   }
 }
 
 resource "aws_lb_target_group" "alb_internal_listener_target_group" {
-  count    = var.alb_int_enabled ? 1 : 0
+  count    = var.alb_int_enabled && var.module_enabled ? 1 : 0
   name     = "${var.name}-alb-int"
   port     = var.alb_internal_port
   protocol = var.alb_internal_target_protocol
