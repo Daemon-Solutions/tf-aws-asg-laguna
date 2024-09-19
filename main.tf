@@ -1,5 +1,7 @@
 // Launch Configuration
 resource "aws_launch_configuration" "lc" {
+  count = var.module_enabled ? 1 : 0
+
   lifecycle {
     create_before_destroy = true
   }
@@ -16,18 +18,20 @@ resource "aws_launch_configuration" "lc" {
 }
 
 locals {
-  target_group_arns = "${var.alb_int_enabled ? [aws_lb_target_group.alb_https_target_group.arn, aws_lb_target_group.alb_internal_listener_target_group[0].arn] : [aws_lb_target_group.alb_https_target_group.arn]}"
+  target_group_arns = "${var.alb_int_enabled ? [try(aws_lb_target_group.alb_https_target_group[0].arn, 0), aws_lb_target_group.alb_internal_listener_target_group[0].arn] : [try(aws_lb_target_group.alb_https_target_group[0].arn, 0)]}"
 }
 
 // Auto-Scaling Group Configuration
 resource "aws_autoscaling_group" "asg" {
+  count = var.module_enabled ? 1 : 0
+
   name = var.name
 
   vpc_zone_identifier = [element(split(",", var.subnets), "0")]
 
   target_group_arns = local.target_group_arns
 
-  launch_configuration = aws_launch_configuration.lc.name
+  launch_configuration = aws_launch_configuration.lc[0].name
 
   enabled_metrics = var.enabled_metrics
 

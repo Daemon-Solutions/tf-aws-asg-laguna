@@ -1,17 +1,17 @@
 output "launch_config_id" {
-  value = aws_launch_configuration.lc.id
+  value = try(aws_launch_configuration.lc[0].id, 0)
 }
 
 output "asg_id" {
-  value = aws_autoscaling_group.asg.id
+  value = try(aws_autoscaling_group.asg[0].id, 0)
 }
 
 output "asg_name" {
-  value = aws_autoscaling_group.asg.name
+  value = try(aws_autoscaling_group.asg[0].name, 0)
 }
 
 output "aws_lb_alb_dns_name" {
-  value = aws_lb.alb.dns_name
+  value = try(aws_lb.alb[0].dns_name, 0)
 }
 
 output "aws_lb_alb_internal_dns_name" {
