@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "alb_https_target_group" {
 resource "aws_autoscaling_attachment" "wordpress_autoscaling_attachment" {
   count                  = var.module_enabled ? 1 : 0
   autoscaling_group_name = aws_autoscaling_group.asg[0].id
-  alb_target_group_arn   = aws_lb_target_group.alb_https_target_group[0].arn
+  lb_target_group_arn    = aws_lb_target_group.alb_https_target_group[0].arn
 }
 
 ###Private Internal ALB
