@@ -18,8 +18,10 @@ resource "aws_launch_configuration" "lc" {
 }
 
 locals {
-  target_group_arns = var.alb_int_enabled ? [try(aws_lb_target_group.alb_https_target_group[0].arn, 0), aws_lb_target_group.alb_internal_listener_target_group[0].arn] : [try(aws_lb_target_group.alb_https_target_group[0].arn, 0)]
+  target_group_arns = var.alb_int_enabled ? compact([try(aws_lb_target_group.alb_https_target_group[0].arn, ""), try(aws_lb_target_group.alb_internal_listener_target_group[0].arn,"")]) : compact([try(aws_lb_target_group.alb_https_target_group[0].arn, "")])
+
 }
+
 
 // Auto-Scaling Group Configuration
 resource "aws_autoscaling_group" "asg" {
