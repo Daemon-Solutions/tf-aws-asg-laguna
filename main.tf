@@ -1,25 +1,5 @@
-// Launch Configuration
-resource "aws_launch_configuration" "lc" {
-  count = var.module_enabled ? 1 : 0
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  security_groups = split(",", var.security_groups)
-
-  image_id                    = var.ami_id
-  instance_type               = var.instance_type
-  iam_instance_profile        = var.iam_instance_profile
-  key_name                    = var.key_name
-  user_data                   = var.user_data
-  associate_public_ip_address = var.associate_public_ip_address
-  enable_monitoring           = var.detailed_monitoring
-}
-
 locals {
-  target_group_arns = var.alb_int_enabled ? compact([try(aws_lb_target_group.alb_https_target_group[0].arn, ""), try(aws_lb_target_group.alb_internal_listener_target_group[0].arn,"")]) : compact([try(aws_lb_target_group.alb_https_target_group[0].arn, "")])
-
+  target_group_arns = var.alb_int_enabled ? compact([try(aws_lb_target_group.alb_https_target_group[0].arn, ""), try(aws_lb_target_group.alb_internal_listener_target_group[0].arn, "")]) : compact([try(aws_lb_target_group.alb_https_target_group[0].arn, "")])
 }
 
 
@@ -33,7 +13,10 @@ resource "aws_autoscaling_group" "asg" {
 
   target_group_arns = local.target_group_arns
 
-  launch_configuration = aws_launch_configuration.lc[0].name
+  launch_template {
+    id      = aws_launch_template.lt[0].id
+    version = "$Latest"
+  }
 
   enabled_metrics = var.enabled_metrics
 
