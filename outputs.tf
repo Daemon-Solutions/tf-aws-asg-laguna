@@ -1,5 +1,5 @@
 output "launch_config_id" {
-  value = try(aws_launch_configuration.lc[0].id, 0)
+  value = join("", aws_launch_template.lt.*.id)
 }
 
 output "asg_id" {

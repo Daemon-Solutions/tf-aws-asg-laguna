@@ -157,3 +157,23 @@ variable "module_enabled" {
   type    = bool
   default = false
 }
+
+
+#SD-3772
+variable "ebs_block_device" {
+  description = "Specify volumes to attach to the instance besides the volumes specified by the AMI"
+  type        = list(any)
+  default     = []
+}
+
+variable "full_name" {
+  description = "Full name of the resource (as opposed to prefix), in order to retain laguna compatibility"
+  type        = string
+  default     = null
+}
+
+variable "update_default_version" {
+  description = "Update Default Template Version"
+  type        = bool
+  default     = true
+}
