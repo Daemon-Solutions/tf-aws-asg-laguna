@@ -56,7 +56,8 @@ No modules.
 | <a name="input_alb_internal_port"></a> [alb\_internal\_port](#input\_alb\_internal\_port) | n/a | `string` | n/a | yes |
 | <a name="input_alb_internal_target_protocol"></a> [alb\_internal\_target\_protocol](#input\_alb\_internal\_target\_protocol) | n/a | `string` | `"TCP"` | no |
 | <a name="input_alb_listener_protocol"></a> [alb\_listener\_protocol](#input\_alb\_listener\_protocol) | n/a | `string` | n/a | yes |
-| <a name="input_alb_logs_bucket"></a> [alb\_logs\_bucket](#input\_alb\_logs\_bucket) | n/a | `string` | n/a | yes |
+| <a name="input_alb_logs_bucket"></a> [alb\_logs\_bucket](#input\_alb\_logs\_bucket) | The bucket to store the logs | `string` | n/a | yes |
+| <a name="input_alb_logs_bucket_prefix"></a> [alb\_logs\_bucket\_prefix](#input\_alb\_logs\_bucket\_prefix) | The S3 bucket prefix of where the alb logs are stored | `string` | `"alb-logs"` | no |
 | <a name="input_alb_target_port"></a> [alb\_target\_port](#input\_alb\_target\_port) | n/a | `string` | n/a | yes |
 | <a name="input_alb_target_protocol"></a> [alb\_target\_protocol](#input\_alb\_target\_protocol) | n/a | `string` | n/a | yes |
 | <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | Launch Configuration Variables | `any` | n/a | yes |
@@ -65,7 +66,7 @@ No modules.
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | n/a | `bool` | `false` | no |
 | <a name="input_detailed_monitoring"></a> [detailed\_monitoring](#input\_detailed\_monitoring) | n/a | `bool` | `false` | no |
 | <a name="input_ebs_block_device"></a> [ebs\_block\_device](#input\_ebs\_block\_device) | Specify volumes to attach to the instance besides the volumes specified by the AMI | `list(any)` | `[]` | no |
-| <a name="input_enabled_metrics"></a> [enabled\_metrics](#input\_enabled\_metrics) | A list of metrics to collect. The allowed values are GroupMinSize, GroupMaxSize, GroupDesiredCapacity, GroupInServiceInstances, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances | `list(string)` | <pre>[<br/>  "GroupMinSize",<br/>  "GroupMaxSize",<br/>  "GroupDesiredCapacity",<br/>  "GroupInServiceInstances",<br/>  "GroupPendingInstances",<br/>  "GroupStandbyInstances",<br/>  "GroupTerminatingInstances",<br/>  "GroupTotalInstances"<br/>]</pre> | no |
+| <a name="input_enabled_metrics"></a> [enabled\_metrics](#input\_enabled\_metrics) | A list of metrics to collect. The allowed values are GroupMinSize, GroupMaxSize, GroupDesiredCapacity, GroupInServiceInstances, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances | `list(string)` | <pre>[<br>  "GroupMinSize",<br>  "GroupMaxSize",<br>  "GroupDesiredCapacity",<br>  "GroupInServiceInstances",<br>  "GroupPendingInstances",<br>  "GroupStandbyInstances",<br>  "GroupTerminatingInstances",<br>  "GroupTotalInstances"<br>]</pre> | no |
 | <a name="input_envname"></a> [envname](#input\_envname) | n/a | `any` | n/a | yes |
 | <a name="input_full_name"></a> [full\_name](#input\_full\_name) | Full name of the resource (as opposed to prefix), in order to retain laguna compatibility | `string` | `null` | no |
 | <a name="input_health_check_grace_period"></a> [health\_check\_grace\_period](#input\_health\_check\_grace\_period) | n/a | `number` | `300` | no |
@@ -82,7 +83,7 @@ No modules.
 | <a name="input_ssl_policy"></a> [ssl\_policy](#input\_ssl\_policy) | n/a | `string` | `"ELBSecurityPolicy-TLS-1-2-2017-01"` | no |
 | <a name="input_stickiness_type"></a> [stickiness\_type](#input\_stickiness\_type) | n/a | `string` | `"lb_cookie"` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | A list of subnet IDs to launch resources in | `any` | n/a | yes |
-| <a name="input_suspended_processes"></a> [suspended\_processes](#input\_suspended\_processes) | n/a | `list(string)` | <pre>[<br/>  "HealthCheck",<br/>  "Launch",<br/>  "ReplaceUnhealthy",<br/>  "Terminate"<br/>]</pre> | no |
+| <a name="input_suspended_processes"></a> [suspended\_processes](#input\_suspended\_processes) | n/a | `list(string)` | <pre>[<br>  "HealthCheck",<br>  "Launch",<br>  "ReplaceUnhealthy",<br>  "Terminate"<br>]</pre> | no |
 | <a name="input_update_default_version"></a> [update\_default\_version](#input\_update\_default\_version) | Update Default Template Version | `bool` | `true` | no |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Content of userdata file | `any` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ALB | `string` | n/a | yes |

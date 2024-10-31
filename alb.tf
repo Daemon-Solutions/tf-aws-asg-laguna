@@ -8,11 +8,13 @@ resource "aws_lb" "alb" {
   enable_deletion_protection = true
   access_logs {
     bucket  = var.alb_logs_bucket
-    prefix  = "alb-logs"
+    prefix  = var.alb_logs_bucket_prefix
     enabled = true
   }
   tags = {
-    Name = "${var.name}-alb-${var.envname}"
+    Name        = "${var.name}-alb-${var.envname}"
+    Service     = var.service
+    Environment = var.envname
   }
 }
 #ALB listner
