@@ -94,7 +94,14 @@ variable "alb_health_port" {
 }
 
 variable "alb_logs_bucket" {
-  type = string
+  description = "The bucket to store the logs"
+  type        = string
+}
+
+variable "alb_logs_bucket_prefix" {
+  description = "The S3 bucket prefix of where the alb logs are stored"
+  type        = string
+  default     = "alb-logs"
 }
 
 variable "https_port" {
@@ -177,3 +184,4 @@ variable "update_default_version" {
   type        = bool
   default     = true
 }
+
