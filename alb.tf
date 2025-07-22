@@ -79,7 +79,7 @@ resource "aws_lb" "alb_internal" {
   count                      = var.alb_int_enabled && var.module_enabled ? 1 : 0
   name                       = "${var.name}-alb-int"
   internal                   = true
-  subnets                    = split(",", var.public_subnets)
+  subnets                    = split(",", var.subnets)
   load_balancer_type         = "network"
   enable_deletion_protection = true
   access_logs {
