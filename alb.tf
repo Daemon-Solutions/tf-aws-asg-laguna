@@ -3,7 +3,7 @@ resource "aws_lb" "alb" {
   name                       = "${var.name}-alb"
   internal                   = false
   subnets                    = split(",", var.public_subnets)
-  security_groups            = split(",", var.security_groups)
+  security_groups            = split(",", var.alb_security_groups)
   load_balancer_type         = "application"
   enable_deletion_protection = true
   access_logs {

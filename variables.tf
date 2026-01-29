@@ -25,6 +25,9 @@ variable "key_name" {
 variable "security_groups" {
 }
 
+variable "alb_security_groups" {
+}
+
 variable "user_data" {
   description = "Content of userdata file"
 }
